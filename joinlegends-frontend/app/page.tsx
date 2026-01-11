@@ -27,12 +27,18 @@ export default function Home() {
               >
                 XTreinos
               </a>
-              <button className="px-4 py-2 border border-[#00f5ff] text-[#00f5ff] hover:bg-[#00f5ff] hover:text-[#0a0a0a] transition-all">
+              <a
+                href="/auth/login"
+                className="px-4 py-2 border border-[#00f5ff] text-[#00f5ff] hover:bg-[#00f5ff] hover:text-[#0a0a0a] transition-all"
+              >
                 Entrar
-              </button>
-              <button className="px-4 py-2 bg-[#00f5ff] text-[#0a0a0a] font-semibold hover:shadow-[0_0_20px_rgba(0,245,255,0.5)] transition-all">
+              </a>
+              <a
+                href="/auth/cadastro"
+                className="px-4 py-2 bg-[#00f5ff] text-[#0a0a0a] font-semibold hover:shadow-[0_0_20px_rgba(0,245,255,0.5)] transition-all"
+              >
                 Cadastrar
-              </button>
+              </a>
             </div>
           </div>
         </div>
