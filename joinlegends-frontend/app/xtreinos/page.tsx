@@ -205,6 +205,26 @@ export default function XTreinosPage() {
                     </div>
                   </div>
 
+                  {/* Valores */}
+                  <div className="mb-4 p-3 bg-[#0a0a0a]/50 rounded-lg border border-[#00f5ff]/20">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-400">Inscrição:</span>
+                      <span className="text-lg font-bold text-[#00f5ff]">
+                        R$ {typeof xtreino.valorInscricao === 'number' 
+                          ? xtreino.valorInscricao.toFixed(2).replace(".", ",") 
+                          : "0,00"}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-400">Premiação:</span>
+                      <span className="text-lg font-bold text-[#00ff41]">
+                        R$ {typeof xtreino.valorPremiacao === 'number' 
+                          ? xtreino.valorPremiacao.toFixed(2).replace(".", ",") 
+                          : "0,00"}
+                      </span>
+                    </div>
+                  </div>
+
                   {/* Botão de Inscrição */}
                   <div onClick={(e) => e.stopPropagation()} className="w-full">
                     <button className="w-full px-4 py-2 bg-[#00f5ff] text-[#0a0a0a] font-semibold rounded-lg hover:shadow-[0_0_20px_rgba(0,245,255,0.5)] transition-all">

@@ -268,6 +268,24 @@ export default function XTreinoDetailPage({
                       {xtreino.duracao}
                     </span>
                   </div>
+                  <div className="pt-4 border-t border-[#00f5ff]/20">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-gray-400">Valor da Inscrição:</span>
+                      <span className="text-xl font-bold text-[#00f5ff]">
+                        R$ {typeof xtreino.valorInscricao === 'number' 
+                          ? xtreino.valorInscricao.toFixed(2).replace(".", ",") 
+                          : "0,00"}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-400">Premiação Total:</span>
+                      <span className="text-xl font-bold text-[#00ff41]">
+                        R$ {typeof xtreino.valorPremiacao === 'number' 
+                          ? xtreino.valorPremiacao.toFixed(2).replace(".", ",") 
+                          : "0,00"}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
                 <button className="w-full px-6 py-3 bg-[#00f5ff] text-[#0a0a0a] font-bold rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.6)] transition-all transform hover:scale-105">

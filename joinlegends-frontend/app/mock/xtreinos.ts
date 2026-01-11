@@ -14,6 +14,8 @@ export type TreinosData = {
   descricaoCompleta: string;
   imagem: string;
   logo: string;
+  valorInscricao: number; // Valor em reais
+  valorPremiacao: number; // Valor total da premiação em reais
   participantes: {
     nome: string;
     avatar: string;
@@ -37,6 +39,8 @@ export const xtreinos = [
       "Sessão focada em melhorar precisão e reflexos. Trabalharemos técnicas de flick e tracking.",
     imagem: "/assets/x0.jpeg",
     logo: "/assets/games/bloodstrike.png",
+    valorInscricao: 25.00,
+    valorPremiacao: 500.00,
   },
   {
     id: 2,
@@ -51,6 +55,8 @@ export const xtreinos = [
       "Análise de mapas e execução de estratégias em equipe. Ideal para jogadores que querem subir de rank.",
     imagem: "/assets/x1.jpeg",
     logo: "/assets/games/deltaforce.png",
+    valorInscricao: 35.00,
+    valorPremiacao: 800.00,
   },
   {
     id: 3,
@@ -65,6 +71,8 @@ export const xtreinos = [
       "Aprenda os fundamentos do jogo: posicionamento, estratégia e sobrevivência. Perfeito para novos jogadores.",
     imagem: "/assets/x2.jpeg",
     logo: "/assets/games/freefire.png",
+    valorInscricao: 15.00,
+    valorPremiacao: 300.00,
   },
   {
     id: 4,
@@ -79,6 +87,8 @@ export const xtreinos = [
       "Scrims organizados com análise pós-jogo. Ambiente competitivo para melhorar em equipe.",
     imagem: "/assets/x3.jpg",
     logo: "/assets/games/freefire.png",
+    valorInscricao: 50.00,
+    valorPremiacao: 1200.00,
   },
   {
     id: 5,
@@ -93,6 +103,8 @@ export const xtreinos = [
       "Treino de mecânicas avançadas: movimentação, mira e controle de spray. Foco em consistência e precisão.",
     imagem: "/assets/x0.jpeg",
     logo: "/assets/games/bloodstrike.png",
+    valorInscricao: 30.00,
+    valorPremiacao: 600.00,
   },
   {
     id: 6,
@@ -107,6 +119,8 @@ export const xtreinos = [
       "Análise de gameplay gravado. Identifique erros e aprenda com situações reais de jogo.",
     imagem: "/assets/x1.jpeg",
     logo: "/assets/games/deltaforce.png",
+    valorInscricao: 20.00,
+    valorPremiacao: 400.00,
   },
 ];
 
@@ -155,6 +169,8 @@ O treino será dividido em três partes principais:
 - Como treinar eficientemente sozinho`,
   imagem: "/assets/x0.jpeg",
   logo: "/assets/games/bloodstrike.png",
+  valorInscricao: 25.00,
+  valorPremiacao: 500.00,
   participantes: [
     { nome: "Player1", avatar: "/assets/x1.jpeg", rank: "Diamante" },
     { nome: "Player2", avatar: "/assets/x2.jpeg", rank: "Ouro" },
