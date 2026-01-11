@@ -79,9 +79,12 @@ export default function XTreinosPage() {
               </select>
             </div>
 
-            <button className="px-6 py-3 bg-[#00f5ff] text-[#0a0a0a] font-bold rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.6)] transition-all transform hover:scale-105">
+            <Link
+              href="/xtreinos/criar"
+              className="inline-block px-6 py-3 bg-[#00f5ff] text-[#0a0a0a] font-bold rounded-lg hover:shadow-[0_0_30px_rgba(0,245,255,0.6)] transition-all transform hover:scale-105"
+            >
               + Criar Novo XTreino
-            </button>
+            </Link>
           </div>
         </div>
       </section>
