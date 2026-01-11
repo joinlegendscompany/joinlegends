@@ -148,23 +148,59 @@ export default function XTreinoDetailPage({
                 <h2 className="text-xl font-bold text-[#00f5ff] mb-4">
                   Criado por
                 </h2>
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#00f5ff]/30">
-                    <Image
-                      src={xtreino.avatarCriador}
-                      alt={xtreino.criador}
-                      width={64}
-                      height={64}
-                      className="object-cover w-full h-full"
-                    />
+                {xtreino.organizacao ? (
+                  <Link
+                    href={`/organizacoes/${xtreino.organizacao.id}`}
+                    className="flex items-center gap-4 hover:opacity-80 transition-opacity"
+                  >
+                    <div className="w-16 h-16 rounded-lg overflow-hidden border-2 border-[#00f5ff]/30 flex-shrink-0">
+                      <Image
+                        src={xtreino.organizacao.logo}
+                        alt={xtreino.organizacao.nome}
+                        width={64}
+                        height={64}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">
+                        {xtreino.organizacao.nome}
+                      </h3>
+                      <p className="text-sm text-gray-400">Organização</p>
+                    </div>
+                    <svg
+                      className="w-5 h-5 text-[#00f5ff] ml-auto"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
+                ) : (
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#00f5ff]/30">
+                      <Image
+                        src={xtreino.avatarCriador}
+                        alt={xtreino.criador}
+                        width={64}
+                        height={64}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">
+                        {xtreino.criador}
+                      </h3>
+                      <p className="text-sm text-gray-400">Organizador</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">
-                      {xtreino.criador}
-                    </h3>
-                    <p className="text-sm text-gray-400">Organizador</p>
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Descrição Completa */}

@@ -4,6 +4,11 @@ export type TreinosData = {
   jogo: string;
   criador: string;
   avatarCriador: string;
+  organizacao?: {
+    id: string;
+    nome: string;
+    logo: string;
+  };
   data: string; // DD/MM/YYYY
   horario: string; // HH:mm
   duracao: string; // ex: "2 horas"
@@ -31,6 +36,11 @@ export const xtreinos = [
     titulo: "Treino de Aim - Bloodstrike",
     jogo: "Bloodstrike",
     criador: "ProPlayer123",
+    organizacao: {
+      id: "loud",
+      nome: "LOUD",
+      logo: "/assets/x0.jpeg",
+    },
     data: "15/01/2024",
     horario: "20:00",
     vagas: "8/10",
@@ -131,6 +141,11 @@ export const xtreinosData: TreinosData = {
   jogo: "Bloodstrike",
   criador: "ProPlayer123",
   avatarCriador: "/assets/x0.jpeg",
+  organizacao: {
+    id: "loud",
+    nome: "LOUD",
+    logo: "/assets/x0.jpeg",
+  },
   data: "15/01/2024",
   horario: "20:00",
   duracao: "2 horas",
