@@ -172,12 +172,10 @@ export default function XTreinoDetailPage({
                 <h2 className="text-xl font-bold text-[#00f5ff] mb-4">
                   Sobre este XTreino
                 </h2>
-                <div className="prose prose-invert max-w-none">
-                  <p className="text-gray-300 mb-4">{xtreino.descricao}</p>
-                  <div className="whitespace-pre-line text-gray-300">
-                    {xtreino.descricaoCompleta}
-                  </div>
-                </div>
+                <div 
+                  className="wysiwyg-content"
+                  dangerouslySetInnerHTML={{ __html: xtreino.descricaoCompleta || xtreino.descricao }}
+                />
               </div>
 
               {/* Participantes */}

@@ -139,34 +139,50 @@ export const xtreinosData: TreinosData = {
   nivel: "Intermediário",
   descricao:
     "Sessão focada em melhorar precisão e reflexos. Trabalharemos técnicas de flick e tracking.",
-  descricaoCompleta: `Nesta sessão de treino, vamos focar em desenvolver habilidades fundamentais de mira e precisão no Bloodstrike. 
+  descricaoCompleta: `<p class="mb-4">Nesta sessão de treino, vamos focar em desenvolver habilidades fundamentais de mira e precisão no Bloodstrike.</p>
 
-O treino será dividido em três partes principais:
+<p class="mb-4">O treino será dividido em três partes principais:</p>
 
-1. **Aquecimento e Fundamentos (30min)**
-   - Exercícios básicos de mira estática
-   - Prática de controle de spray
-   - Ajuste de sensibilidade individual
+<ol class="mb-4 space-y-2">
+  <li>
+    <strong>Aquecimento e Fundamentos (30min)</strong>
+    <ul class="ml-6 mt-1">
+      <li>Exercícios básicos de mira estática</li>
+      <li>Prática de controle de spray</li>
+      <li>Ajuste de sensibilidade individual</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Técnicas Avançadas (60min)</strong>
+    <ul class="ml-6 mt-1">
+      <li>Flick shots e tracking de alvos em movimento</li>
+      <li>Pre-aim e crosshair placement</li>
+      <li>Peek timing e angle holding</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Scrims Práticos (30min)</strong>
+    <ul class="ml-6 mt-1">
+      <li>Partidas curtas para aplicar o aprendizado</li>
+      <li>Análise de erros em tempo real</li>
+      <li>Dicas personalizadas para cada participante</li>
+    </ul>
+  </li>
+</ol>
 
-2. **Técnicas Avançadas (60min)**
-   - Flick shots e tracking de alvos em movimento
-   - Pre-aim e crosshair placement
-   - Peek timing e angle holding
+<h3 class="text-[#00f5ff] font-bold mb-2 mt-6">Requisitos:</h3>
+<ul class="mb-4 space-y-1">
+  <li>Nível intermediário ou superior</li>
+  <li>Microfone para comunicação</li>
+  <li>Conexão estável</li>
+</ul>
 
-3. **Scrims Práticos (30min)**
-   - Partidas curtas para aplicar o aprendizado
-   - Análise de erros em tempo real
-   - Dicas personalizadas para cada participante
-
-**Requisitos:**
-- Nível intermediário ou superior
-- Microfone para comunicação
-- Conexão estável
-
-**O que você vai aprender:**
-- Melhorar sua precisão em até 40%
-- Técnicas de mira profissional
-- Como treinar eficientemente sozinho`,
+<h3 class="text-[#00f5ff] font-bold mb-2 mt-6">O que você vai aprender:</h3>
+<ul class="space-y-1">
+  <li>Melhorar sua precisão em até 40%</li>
+  <li>Técnicas de mira profissional</li>
+  <li>Como treinar eficientemente sozinho</li>
+</ul>`,
   imagem: "/assets/x0.jpeg",
   logo: "/assets/games/bloodstrike.png",
   valorInscricao: 25.00,
