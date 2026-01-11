@@ -6,8 +6,8 @@ export default function XTreinosPage() {
   const xtreinos = [
     {
       id: 1,
-      titulo: "Treino de Aim - CS2",
-      jogo: "Counter-Strike 2",
+      titulo: "Treino de Aim - Bloodstrike",
+      jogo: "Bloodstrike",
       criador: "ProPlayer123",
       data: "15/01/2024",
       horario: "20:00",
@@ -15,11 +15,12 @@ export default function XTreinosPage() {
       nivel: "Intermediário",
       descricao: "Sessão focada em melhorar precisão e reflexos. Trabalharemos técnicas de flick e tracking.",
       imagem: "/assets/x0.jpeg",
+      logo: "/assets/games/bloodstrike.png",
     },
     {
       id: 2,
-      titulo: "Estratégias Táticas - Valorant",
-      jogo: "Valorant",
+      titulo: "Estratégias Táticas - Delta Force",
+      jogo: "Delta Force",
       criador: "TacticalMaster",
       data: "16/01/2024",
       horario: "19:30",
@@ -27,23 +28,25 @@ export default function XTreinosPage() {
       nivel: "Avançado",
       descricao: "Análise de mapas e execução de estratégias em equipe. Ideal para jogadores que querem subir de rank.",
       imagem: "/assets/x1.jpeg",
+      logo: "/assets/games/deltaforce.png",
     },
     {
       id: 3,
-      titulo: "Fundamentos - League of Legends",
-      jogo: "League of Legends",
-      criador: "CoachLOL",
+      titulo: "Fundamentos - Free Fire",
+      jogo: "Free Fire",
+      criador: "CoachFF",
       data: "17/01/2024",
       horario: "18:00",
       vagas: "12/15",
       nivel: "Iniciante",
-      descricao: "Aprenda os fundamentos do jogo: farm, posicionamento, visão e objetivos. Perfeito para novos jogadores.",
+      descricao: "Aprenda os fundamentos do jogo: posicionamento, estratégia e sobrevivência. Perfeito para novos jogadores.",
       imagem: "/assets/x2.jpeg",
+      logo: "/assets/games/freefire.png",
     },
     {
       id: 4,
-      titulo: "Scrims Competitivos - Fortnite",
-      jogo: "Fortnite",
+      titulo: "Scrims Competitivos - Free Fire",
+      jogo: "Free Fire",
       criador: "ScrimOrganizer",
       data: "18/01/2024",
       horario: "21:00",
@@ -51,30 +54,33 @@ export default function XTreinosPage() {
       nivel: "Avançado",
       descricao: "Scrims organizados com análise pós-jogo. Ambiente competitivo para melhorar em equipe.",
       imagem: "/assets/x3.jpg",
+      logo: "/assets/games/freefire.png",
     },
     {
       id: 5,
-      titulo: "Mechanics Training - Rocket League",
-      jogo: "Rocket League",
+      titulo: "Mechanics Training - Bloodstrike",
+      jogo: "Bloodstrike",
       criador: "RLPro",
       data: "19/01/2024",
       horario: "20:30",
       vagas: "6/8",
       nivel: "Intermediário",
-      descricao: "Treino de mecânicas avançadas: arials, dribbles e passes. Foco em consistência e precisão.",
+      descricao: "Treino de mecânicas avançadas: movimentação, mira e controle de spray. Foco em consistência e precisão.",
       imagem: "/assets/x0.jpeg",
+      logo: "/assets/games/bloodstrike.png",
     },
     {
       id: 6,
-      titulo: "VOD Review - Apex Legends",
-      jogo: "Apex Legends",
-      criador: "ApexCoach",
+      titulo: "VOD Review - Delta Force",
+      jogo: "Delta Force",
+      criador: "DeltaCoach",
       data: "20/01/2024",
       horario: "19:00",
       vagas: "10/12",
       nivel: "Todos os níveis",
       descricao: "Análise de gameplay gravado. Identifique erros e aprenda com situações reais de jogo.",
       imagem: "/assets/x1.jpeg",
+      logo: "/assets/games/deltaforce.png",
     },
   ];
 
@@ -139,12 +145,9 @@ export default function XTreinosPage() {
               />
               <select className="px-6 py-3 bg-[#1a1a2e]/50 border border-[#00f5ff]/30 rounded-lg text-white focus:outline-none focus:border-[#00f5ff] focus:shadow-[0_0_20px_rgba(0,245,255,0.2)] transition-all">
                 <option value="">Todos os jogos</option>
-                <option value="cs2">Counter-Strike 2</option>
-                <option value="valorant">Valorant</option>
-                <option value="lol">League of Legends</option>
-                <option value="fortnite">Fortnite</option>
-                <option value="rocket-league">Rocket League</option>
-                <option value="apex">Apex Legends</option>
+                <option value="bloodstrike">Bloodstrike</option>
+                <option value="deltaforce">Delta Force</option>
+                <option value="freefire">Free Fire</option>
               </select>
               <select className="px-6 py-3 bg-[#1a1a2e]/50 border border-[#00f5ff]/30 rounded-lg text-white focus:outline-none focus:border-[#00f5ff] focus:shadow-[0_0_20px_rgba(0,245,255,0.2)] transition-all">
                 <option value="">Todos os níveis</option>
@@ -184,6 +187,16 @@ export default function XTreinosPage() {
                   <span className="absolute top-4 right-4 px-3 py-1 text-xs font-semibold bg-[#00f5ff]/20 text-[#00f5ff] rounded-full border border-[#00f5ff]/30 backdrop-blur-sm">
                     {xtreino.nivel}
                   </span>
+                  {/* Logo do jogo - discreta no canto inferior esquerdo */}
+                  <div className="absolute bottom-3 left-3 w-20 h-20 bg-[#0a0a0a]/80 backdrop-blur-sm rounded-lg border border-[#00f5ff]/20 flex items-center justify-center p-2">
+                    <Image
+                      src={xtreino.logo}
+                      alt={xtreino.jogo}
+                      width={64}
+                      height={64}
+                      className="object-contain opacity-80"
+                    />
+                  </div>
                 </div>
                 
                 <div className="relative p-6">
@@ -192,7 +205,18 @@ export default function XTreinosPage() {
                     <h3 className="text-xl font-bold text-[#00f5ff] mb-1">
                       {xtreino.titulo}
                     </h3>
-                    <p className="text-sm text-gray-400">{xtreino.jogo}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm text-gray-400">{xtreino.jogo}</p>
+                      {/* Logo pequena ao lado do nome do jogo */}
+                      <div className="w-8 h-8 relative opacity-60">
+                        <Image
+                          src={xtreino.logo}
+                          alt={xtreino.jogo}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   {/* Descrição */}
