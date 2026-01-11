@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>go-backend-stream — API Documentation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header class="hero">
+    <div class="container">
+      <h1>go-backend-stream — API Documentation</h1>
+      <p class="intro">
+        Esta documentação descreve a estrutura de autenticação da API
+        <strong>go-backend-stream</strong>, abordando tanto o uso de autenticação
+        baseada em <strong>token</strong> puro quanto a abordagem com
+        <strong>sessões gerenciadas</strong>.
+      </p>
+      <div class="info-box">
+        <h3>🔐 Sessão vs Token</h3>
+        <p><strong>Com sessão:</strong> o servidor mantém um controle centralizado
+          de sessões ativas, o que aumenta a segurança. Isso permite revogar
+          sessões específicas, rastrear logins e limitar o tempo de uso de cada
+          token.</p>
+        <p><strong>Sem sessão:</strong> o token é auto contido (JWT puro),
+          válido até expirar. É simples e escalável, porém mais difícil de
+          invalidar manualmente. Ideal para APIs sem necessidade de logout
+          centralizado.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>Resumo</h2>
+      <p>Esta documentação cobre os endpoints presentes na pasta
+        <code>go-backend-stream → auth → session | recovery | normal auth</code>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Endpoints — auth / normal auth</h2>
+
+      <article class="endpoint">
+        <h3><span class="method post">POST</span> /v1/auth/sign-in</h3>
+        <p>Sign in "normal auth". Body igual ao exemplo de session sign-in.</p>
+        <h4>Body (JSON)</h4>
+        <pre>{
+  "email": "thalles@gmail.com",
+  "password": "minhasenha123"
+}</pre>
+
+        <h4>Respoonse Body (JSON)</h4>
+        <pre>{
+  "access_token": {
+    "expires_in": "depois eu faço isso...",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA4ODgzMDYsInN1YiI6Ijk2MmUzZTdlLTkyMjktNGVkMC05ZTQwLTJhNDdkZWQ4MGI3MSJ9.FTq1fTMZBsuygjg7H5HgUDZBGxn3TkqvSHkFqmUg9so"
+  },
+  "message": "usuário logado com sucesso",
+  "user": {
+    "id": "962e3e7e-9229-4ed0-9e40-2a47ded80b71",
+    "name": "thalles",
+    "email": "thalles@gmail.com",
+    "password": "minhasenha123",
+    "created_at": "2025-10-19T10:44:01.831682Z"
+  }
+}</pre>
+      </article>
+
+      <article class="endpoint">
+        <h3><span class="method post">POST</span> /v1/auth/sign-up</h3>
+        <p>Sign up "normal auth". Body igual ao exemplo de session sign-up.</p>
+        <h4>Body (JSON)</h4>
+        <pre>{
+  "name": "thalles",
+  "email": "thalles@gmail.com",
+  "password": "minhasenha123"
+}</pre>
+
+        <h4>Respoonse Body (JSON)</h4>
+        <pre>{
+  "access_token": {
+    "expires_in": "depois eu faço isso...",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA4ODgzMDYsInN1YiI6Ijk2MmUzZTdlLTkyMjktNGVkMC05ZTQwLTJhNDdkZWQ4MGI3MSJ9.FTq1fTMZBsuygjg7H5HgUDZBGxn3TkqvSHkFqmUg9so"
+  },
+  "message": "usuário logado com sucesso",
+  "user": {
+    "id": "962e3e7e-9229-4ed0-9e40-2a47ded80b71",
+    "name": "thalles",
+    "email": "thalles@gmail.com",
+    "password": "minhasenha123",
+    "created_at": "2025-10-19T10:44:01.831682Z"
+  }
+}</pre>
+      </article>
+    </section>
+
+    <section>
+      <h2>Endpoints — auth / session</h2>
+
+      <article class="endpoint">
+        <h3><span class="method post">POST</span> /v1/auth/session/sign-in</h3>
+        <p class="muted">Nome na coleção: <strong>sign in</strong></p>
+        <p>Autenticação com controle de sessão. Retorna token e ID de sessão.</p>
+        <h4>Headers</h4>
+        <ul>
+          <li>Content-Type: application/json</li>
+          <li>User-Agent: insomnia/11.1.0</li>
+        </ul>
+        <h4>Body (JSON)</h4>
+        <pre>{
+  "email": "thalles@gmail.com",
+  "password": "minhasenha123"
+}</pre>
+
+        <h4>Respoonse Body (JSON)</h4>
+        <pre>{
+  "access_token": {
+    "expires_in": "depois eu faço isso...",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA4OTEzMDYsInN1YiI6ImIzODFkOWU1LWY4OTYtNGZjYy05NzYwLWY3N2RhZDkyZGY0NSJ9.ZI-UBJ1G14crY79vCKgyK8ztJPXW0q4hflqEBTjGLTI"
+  },
+  "message": "usuário logado com sucesso",
+  "session": {
+    "id": "b381d9e5-f896-4fcc-9760-f77dad92df45",
+    "user_id": "84d9de30-6f6c-4251-bf42-edcddb4f6b85",
+    "browser": "insomnia/11.1.0",
+    "ip": "127.0.0.1",
+    "created_at": "2025-10-19T15:28:26.82801Z",
+    "expires_at": "2025-10-20T15:28:26.828004Z"
+  },
+  "user": {
+    "id": "84d9de30-6f6c-4251-bf42-edcddb4f6b85",
+    "name": "thalles",
+    "email": "thalles@gmail.com",
+    "password": "minhasenha123",
+    "created_at": "2025-10-19T15:26:23.567108Z",
+    "updated_at": "0001-01-01T00:00:00Z"
+  }
+}
+</pre>
+      </article>
+
+      <article class="endpoint">
+        <h3><span class="method post">POST</span> /v1/auth/session/sign-up</h3>
+        <p class="muted">Nome na coleção: <strong>sign up</strong></p>
+        <p>Cria uma conta / registra usuário e gera sessão inicial.</p>
+        <h4>Headers</h4>
+        <ul>
+          <li>Content-Type: application/json</li>
+          <li>User-Agent: insomnia/11.1.0</li>
+        </ul>
+        <h4>Body (JSON)</h4>
+        <pre>{
+  "name": "thalles",
+  "email": "thalles@gmail.com",
+  "password": "minhasenha123"
+}</pre>
+
+
+        <h4>Respoonse Body (JSON)</h4>
+        <pre>{
+  "access_token": {
+    "expires_in": "depois eu faço isso...",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjA4OTEzMDYsInN1YiI6ImIzODFkOWU1LWY4OTYtNGZjYy05NzYwLWY3N2RhZDkyZGY0NSJ9.ZI-UBJ1G14crY79vCKgyK8ztJPXW0q4hflqEBTjGLTI"
+  },
+  "message": "usuário logado com sucesso",
+  "session": {
+    "id": "b381d9e5-f896-4fcc-9760-f77dad92df45",
+    "user_id": "84d9de30-6f6c-4251-bf42-edcddb4f6b85",
+    "browser": "insomnia/11.1.0",
+    "ip": "127.0.0.1",
+    "created_at": "2025-10-19T15:28:26.82801Z",
+    "expires_at": "2025-10-20T15:28:26.828004Z"
+  },
+  "user": {
+    "id": "84d9de30-6f6c-4251-bf42-edcddb4f6b85",
+    "name": "thalles",
+    "email": "thalles@gmail.com",
+    "password": "minhasenha123",
+    "created_at": "2025-10-19T15:26:23.567108Z",
+    "updated_at": "0001-01-01T00:00:00Z"
+  }
+}
+</pre>
+      </article>
+
+      <article class="endpoint">
+        <h3><span class="method get">GET</span> /v1/auth/session</h3>
+        <p>Recupera a sessão do usuário autenticado.</p>
+        <h4>Authentication</h4>
+        <p>Bearer token (exemplo):</p>
+        <pre>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</pre>
+
+        <h4>Respoonse Body (JSON)</h4>
+        <pre>{
+  "message": "sessão válida",
+  "user_id": "962e3e7e-9229-4ed0-9e40-2a47ded80b71"
+}
+</pre>
+      </article>
+
+      <article class="endpoint">
+        <h3><span class="method get">GET</span> /v1/auth/session/all</h3>
+        <p>Lista todas as sessões (admin).</p>
+
+        <h4>Respoonse Body (JSON)</h4>
+        <pre>{
+  "message": "sessões encontradas com successo",
+  "sessions": [
+    {
+      "id": "dfc90a43-9d7f-4139-bc8d-d0468cd1b2c1",
+      "user_id": "84d9de30-6f6c-4251-bf42-edcddb4f6b85",
+      "browser": "insomnia/11.1.0",
+      "ip": "127.0.0.1",
+      "created_at": "2025-10-19T15:26:23.593785Z",
+      "expires_at": "2025-10-20T15:26:23.593777Z"
+    },
+    {
+      "id": "7fe6499a-e456-4eee-b231-7c0182087c45",
+      "user_id": "84d9de30-6f6c-4251-bf42-edcddb4f6b85",
+      "browser": "insomnia/11.1.0",
+      "ip": "127.0.0.1",
+      "created_at": "2025-10-19T15:26:26.094486Z",
+      "expires_at": "2025-10-20T15:26:26.094484Z"
+    },
+    {
+      "id": "5901f648-b830-40d4-be07-6909822eacdc",
+      "user_id": "84d9de30-6f6c-4251-bf42-edcddb4f6b85",
+      "browser": "insomnia/11.1.0",
+      "ip": "127.0.0.1",
+      "created_at": "2025-10-19T15:27:13.837087Z",
+      "expires_at": "2025-10-20T15:27:13.837084Z"
+    },
+    {
+      "id": "b381d9e5-f896-4fcc-9760-f77dad92df45",
+      "user_id": "84d9de30-6f6c-4251-bf42-edcddb4f6b85",
+      "browser": "insomnia/11.1.0",
+      "ip": "127.0.0.1",
+      "created_at": "2025-10-19T15:28:26.82801Z",
+      "expires_at": "2025-10-20T15:28:26.828004Z"
+    }
+  ]
+}
+</pre>
+      </article>
+
+      <article class="endpoint">
+        <h3><span class="method delete">DELETE</span> /v1/auth/session/{sessionId}</h3>
+        <p>Revoga uma sessão ativa manualmente.</p>
+
+        <h4>Respoonse Body (JSON)</h4>
+        <pre>{
+  "message": "sessão deletada com sucesso"
+}
+</pre>
+      </article>
+    </section>
+
+    <section>
+      <h2>Endpoints — auth / recovery</h2>
+
+      <article class="endpoint">
+        <h3><span class="method post">POST</span> /v1/auth/recovery/request/{email}</h3>
+        <p>Solicita recuperação de conta para o email informado.</p>
+
+        <h4>Respoonse Body (JSON)</h4>
+        <pre>{
+  "message": "o codigo de recuperacao foi enviado no email thalles@gmail.com com sucesso"
+}
+</pre>
+      </article>
+
+      <article class="endpoint">
+        <h3><span class="method post">POST</span> /v1/auth/recovery/change-password</h3>
+        <p>Define nova senha usando código recebido por e-mail.</p>
+        <h4>Body (JSON)</h4>
+        <pre>{
+  "email": "thalles@gmail.com",
+  "new_password": "Senha123",
+  "code": "6N4TeeLJosJEOgp099SfjEYZxJvC0CWXrnosN3OgCSKf8f0x2JAxXU3wZHBnCotb..."
+}</pre>
+
+        <h4>Respoonse Body (JSON)</h4>
+        <pre>{
+  "message": "senha alterada com sucesso"
+}
+</pre>
+      </article>
+    </section>
+  </main>
+</body>
+
+</html>

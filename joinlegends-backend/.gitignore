@@ -1,0 +1,49 @@
+build
+*.log
+redis-users.acl
+
+# ===== Go =====
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries
+*.test
+
+# Go coverage
+*.out
+coverage/
+*.cov
+
+# ===== Build =====
+bin/
+dist/
+tmp/
+
+# ===== Go workspace =====
+go.work
+go.work.sum
+
+# ===== Vendor =====
+vendor/
+
+# ===== Env =====
+.env
+.env.*
+*.local
+
+# ===== IDE / Editor =====
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+*.log

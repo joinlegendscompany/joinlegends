@@ -1,0 +1,18 @@
+[package]
+name = "rust-processor-stream"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+lettre = { version = "0.11", default-features = false, features = [
+  "smtp-transport",
+  "builder",
+  "rustls-tls"
+]}
+futures = "0.3"
+tokio = { version = "1.37", features = ["full"] }
+axum = "0.7"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+redis = { version = "0.25", features = ["tokio-comp"] }
+uuid = { version = "1.8", features = ["v4"] }
