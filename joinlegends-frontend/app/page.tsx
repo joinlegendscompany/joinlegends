@@ -22,7 +22,7 @@ export default function Home() {
                 Comunidades
               </a>
               <a
-                href="#xtreinos"
+                href="/xtreinos"
                 className="hover:text-[#00f5ff] transition-colors"
               >
                 XTreinos
