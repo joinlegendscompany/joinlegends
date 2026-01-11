@@ -1,89 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { xtreinos } from "../mock/xtreinos";
 
 export default function XTreinosPage() {
-  // Dados mockados de XTreinos
-  const xtreinos = [
-    {
-      id: 1,
-      titulo: "Treino de Aim - Bloodstrike",
-      jogo: "Bloodstrike",
-      criador: "ProPlayer123",
-      data: "15/01/2024",
-      horario: "20:00",
-      vagas: "8/10",
-      nivel: "Intermediário",
-      descricao: "Sessão focada em melhorar precisão e reflexos. Trabalharemos técnicas de flick e tracking.",
-      imagem: "/assets/x0.jpeg",
-      logo: "/assets/games/bloodstrike.png",
-    },
-    {
-      id: 2,
-      titulo: "Estratégias Táticas - Delta Force",
-      jogo: "Delta Force",
-      criador: "TacticalMaster",
-      data: "16/01/2024",
-      horario: "19:30",
-      vagas: "5/8",
-      nivel: "Avançado",
-      descricao: "Análise de mapas e execução de estratégias em equipe. Ideal para jogadores que querem subir de rank.",
-      imagem: "/assets/x1.jpeg",
-      logo: "/assets/games/deltaforce.png",
-    },
-    {
-      id: 3,
-      titulo: "Fundamentos - Free Fire",
-      jogo: "Free Fire",
-      criador: "CoachFF",
-      data: "17/01/2024",
-      horario: "18:00",
-      vagas: "12/15",
-      nivel: "Iniciante",
-      descricao: "Aprenda os fundamentos do jogo: posicionamento, estratégia e sobrevivência. Perfeito para novos jogadores.",
-      imagem: "/assets/x2.jpeg",
-      logo: "/assets/games/freefire.png",
-    },
-    {
-      id: 4,
-      titulo: "Scrims Competitivos - Free Fire",
-      jogo: "Free Fire",
-      criador: "ScrimOrganizer",
-      data: "18/01/2024",
-      horario: "21:00",
-      vagas: "16/20",
-      nivel: "Avançado",
-      descricao: "Scrims organizados com análise pós-jogo. Ambiente competitivo para melhorar em equipe.",
-      imagem: "/assets/x3.jpg",
-      logo: "/assets/games/freefire.png",
-    },
-    {
-      id: 5,
-      titulo: "Mechanics Training - Bloodstrike",
-      jogo: "Bloodstrike",
-      criador: "RLPro",
-      data: "19/01/2024",
-      horario: "20:30",
-      vagas: "6/8",
-      nivel: "Intermediário",
-      descricao: "Treino de mecânicas avançadas: movimentação, mira e controle de spray. Foco em consistência e precisão.",
-      imagem: "/assets/x0.jpeg",
-      logo: "/assets/games/bloodstrike.png",
-    },
-    {
-      id: 6,
-      titulo: "VOD Review - Delta Force",
-      jogo: "Delta Force",
-      criador: "DeltaCoach",
-      data: "20/01/2024",
-      horario: "19:00",
-      vagas: "10/12",
-      nivel: "Todos os níveis",
-      descricao: "Análise de gameplay gravado. Identifique erros e aprenda com situações reais de jogo.",
-      imagem: "/assets/x1.jpeg",
-      logo: "/assets/games/deltaforce.png",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#ededed] overflow-x-hidden">
       {/* Navigation */}
@@ -133,9 +54,10 @@ export default function XTreinosPage() {
               <span className="text-[#00f5ff]">XTreinos</span>
             </h1>
             <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-              Encontre sessões de treino personalizadas e eleve seu nível de jogo
+              Encontre sessões de treino personalizadas e eleve seu nível de
+              jogo
             </p>
-            
+
             {/* Filtros */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <input
@@ -169,12 +91,13 @@ export default function XTreinosPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {xtreinos.map((xtreino) => (
-              <div
+              <Link
                 key={xtreino.id}
-                className="group relative p-0 border border-[#00f5ff]/30 bg-[#1a1a2e]/50 rounded-lg hover:border-[#00f5ff] hover:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all overflow-hidden"
+                href={`/xtreinos/${xtreino.id}`}
+                className="group relative p-0 border border-[#00f5ff]/30 bg-[#1a1a2e]/50 rounded-lg hover:border-[#00f5ff] hover:shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all overflow-hidden block"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-[#00f5ff]/0 to-[#00f5ff]/0 group-hover:from-[#00f5ff]/5 group-hover:to-transparent rounded-lg transition-all"></div>
-                
+
                 {/* Imagem */}
                 <div className="relative w-full h-48 overflow-hidden">
                   <Image
@@ -198,7 +121,7 @@ export default function XTreinosPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div className="relative p-6">
                   {/* Header do Card */}
                   <div className="mb-4">
@@ -227,31 +150,69 @@ export default function XTreinosPage() {
                   {/* Informações */}
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center text-sm text-gray-400">
-                      <svg className="w-4 h-4 mr-2 text-[#00f5ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      <svg
+                        className="w-4 h-4 mr-2 text-[#00f5ff]"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
                       </svg>
-                      Criado por: <span className="text-[#00f5ff] ml-1">{xtreino.criador}</span>
+                      Criado por:{" "}
+                      <span className="text-[#00f5ff] ml-1">
+                        {xtreino.criador}
+                      </span>
                     </div>
                     <div className="flex items-center text-sm text-gray-400">
-                      <svg className="w-4 h-4 mr-2 text-[#00f5ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      <svg
+                        className="w-4 h-4 mr-2 text-[#00f5ff]"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
                       </svg>
                       {xtreino.data} às {xtreino.horario}
                     </div>
                     <div className="flex items-center text-sm text-gray-400">
-                      <svg className="w-4 h-4 mr-2 text-[#00f5ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      <svg
+                        className="w-4 h-4 mr-2 text-[#00f5ff]"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                        />
                       </svg>
-                      Vagas: <span className="text-[#00f5ff] ml-1">{xtreino.vagas}</span>
+                      Vagas:{" "}
+                      <span className="text-[#00f5ff] ml-1">
+                        {xtreino.vagas}
+                      </span>
                     </div>
                   </div>
 
                   {/* Botão de Inscrição */}
-                  <button className="w-full px-4 py-2 bg-[#00f5ff] text-[#0a0a0a] font-semibold rounded-lg hover:shadow-[0_0_20px_rgba(0,245,255,0.5)] transition-all">
-                    Inscrever-se
-                  </button>
+                  <div onClick={(e) => e.stopPropagation()} className="w-full">
+                    <button className="w-full px-4 py-2 bg-[#00f5ff] text-[#0a0a0a] font-semibold rounded-lg hover:shadow-[0_0_20px_rgba(0,245,255,0.5)] transition-all">
+                      Ver Detalhes
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -273,17 +234,26 @@ export default function XTreinosPage() {
               <h4 className="text-[#00f5ff] font-semibold mb-4">Produto</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
-                  <Link href="/#features" className="hover:text-[#00f5ff] transition-colors">
+                  <Link
+                    href="/#features"
+                    className="hover:text-[#00f5ff] transition-colors"
+                  >
                     Features
                   </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-[#00f5ff] transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-[#00f5ff] transition-colors"
+                  >
                     Preços
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-[#00f5ff] transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-[#00f5ff] transition-colors"
+                  >
                     Roadmap
                   </a>
                 </li>
@@ -293,17 +263,26 @@ export default function XTreinosPage() {
               <h4 className="text-[#00f5ff] font-semibold mb-4">Comunidade</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
-                  <a href="#" className="hover:text-[#00f5ff] transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-[#00f5ff] transition-colors"
+                  >
                     Discord
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-[#00f5ff] transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-[#00f5ff] transition-colors"
+                  >
                     Twitter
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-[#00f5ff] transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-[#00f5ff] transition-colors"
+                  >
                     GitHub
                   </a>
                 </li>
@@ -313,17 +292,26 @@ export default function XTreinosPage() {
               <h4 className="text-[#00f5ff] font-semibold mb-4">Suporte</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li>
-                  <a href="#" className="hover:text-[#00f5ff] transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-[#00f5ff] transition-colors"
+                  >
                     Documentação
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-[#00f5ff] transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-[#00f5ff] transition-colors"
+                  >
                     Contato
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-[#00f5ff] transition-colors">
+                  <a
+                    href="#"
+                    className="hover:text-[#00f5ff] transition-colors"
+                  >
                     FAQ
                   </a>
                 </li>
