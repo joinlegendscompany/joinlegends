@@ -71,8 +71,14 @@ func Setup(app *fiber.App, db *database.StreamDB) {
 		}
 
 		{
-			// v1Organization := v1.Group("organization")
-			// v1Organization.Post("/", middlewares.NewJwtSessionMiddleware(db), controllers.AuthController.)
+			v1Organization := v1.Group("organization")
+			v1Organization.Post("/", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.CreateOrganizationController)
+			v1Organization.Get("/", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.GetUserOrganizationsController)
+			v1Organization.Get("/:id", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.GetOrganizationController)
+			v1Organization.Patch("/:id", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.UpdateOrganizationController)
+			v1Organization.Delete("/:id", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.DeleteOrganizationController)
+			v1Organization.Post("/:id/members", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.AddMemberController)
+			v1Organization.Delete("/:id/members/:memberId", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.RemoveMemberController)
 		}
 
 		logger.Info.Printf("log all routes mapped...")
