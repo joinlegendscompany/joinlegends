@@ -16,6 +16,7 @@ func TestOrganizationService_CreateOrganization(t *testing.T) {
 		orgRepo := new(MockOrganizationRepository)
 		memberRepo := new(MockMemberRepository)
 		userRepo := new(MockUserRepository)
+
 		service := organization.NewOrganizationService(orgRepo, memberRepo, userRepo)
 
 		ownerID := "user-123"

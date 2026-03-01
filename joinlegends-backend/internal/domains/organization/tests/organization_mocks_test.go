@@ -75,6 +75,14 @@ func (m *MockMemberRepository) GetByID(id string, member *models.Member) error {
 	return args.Error(1)
 }
 
+func (m *MockMemberRepository) GetByUserID(userID string, members *[]models.Member) error {
+	args := m.Called(userID, members)
+	if ms, ok := args.Get(0).([]models.Member); ok {
+		*members = ms
+	}
+	return args.Error(1)
+}
+
 func (m *MockMemberRepository) DeleteByID(id string) error {
 	args := m.Called(id)
 	return args.Error(0)

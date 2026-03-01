@@ -3,10 +3,12 @@ package factory
 import (
 	"go-backend-stream/internal/domains/auth"
 	"go-backend-stream/internal/domains/game"
+	"go-backend-stream/internal/domains/member"
 	"go-backend-stream/internal/domains/organization"
 	"go-backend-stream/internal/infrastructure/database"
 	game_repository "go-backend-stream/internal/infrastructure/repositories/game"
 	member_repository "go-backend-stream/internal/infrastructure/repositories/member"
+	member_game_repository "go-backend-stream/internal/infrastructure/repositories/member_game"
 	organization_repository "go-backend-stream/internal/infrastructure/repositories/organization"
 	recovery_repository "go-backend-stream/internal/infrastructure/repositories/recovery"
 	session_repository "go-backend-stream/internal/infrastructure/repositories/session"
@@ -17,6 +19,7 @@ type AppControllers struct {
 	AuthController         *auth.AuthController
 	OrganizationController *organization.OrganizationController
 	GameController         *game.GameController
+	MemberController       *member.MemberController
 }
 
 func NewAppControllers(db *database.StreamDB) *AppControllers {
@@ -26,6 +29,7 @@ func NewAppControllers(db *database.StreamDB) *AppControllers {
 	recoveryRepo := recovery_repository.NewRecoveryRepository(db)
 	orgRepo := organization_repository.NewOrganizationRepository(db)
 	memberRepo := member_repository.NewMemberRepository(db)
+	memberGameRepo := member_game_repository.NewMemberGameRepository(db)
 	gameRepo := game_repository.NewGameRepository(db)
 
 	// Services
@@ -33,15 +37,18 @@ func NewAppControllers(db *database.StreamDB) *AppControllers {
 	authService := auth.NewAuthService(userRepo, sessionRepo, recoveryRepo, mailService)
 	orgService := organization.NewOrganizationService(orgRepo, memberRepo, userRepo)
 	gameService := game.NewGameService(gameRepo)
+	memberService := member.NewMemberService(memberRepo, memberGameRepo, gameRepo)
 
 	// Controllers
 	authController := auth.NewAuthController(authService)
 	orgController := organization.NewOrganizationController(orgService)
 	gameController := game.NewGameController(gameService)
+	memberController := member.NewMemberController(memberService)
 
 	return &AppControllers{
 		AuthController:         authController,
 		OrganizationController: orgController,
 		GameController:         gameController,
+		MemberController:       memberController,
 	}
 }

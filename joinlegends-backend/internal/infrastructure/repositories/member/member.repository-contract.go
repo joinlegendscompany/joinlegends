@@ -6,5 +6,6 @@ type MemberRepository interface {
 	Create(member *models.Member) (models.Member, error)
 	GetByOrganizationID(orgID string, members *[]models.Member) error
 	GetByID(id string, member *models.Member) error
+	GetByUserID(userID string, members *[]models.Member) error
 	DeleteByID(id string) error
 }

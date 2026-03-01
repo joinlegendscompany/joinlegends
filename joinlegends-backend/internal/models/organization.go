@@ -22,4 +22,14 @@ type Member struct {
 	Role           string    `json:"role" db:"role"` // ADMIN, MEMBER, OWNER
 	CreatedAt      time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt      time.Time `json:"updated_at" db:"updated_at"`
+
+	Games []Game `json:"games" db:"-"`
+}
+
+type MemberGame struct {
+	ID        string    `json:"id" db:"id"`
+	MemberID  string    `json:"member_id" db:"member_id"`
+	GameID    string    `json:"game_id" db:"game_id"`
+	CreatedAt time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }

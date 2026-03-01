@@ -95,9 +95,25 @@ func Setup(app *fiber.App, db *database.StreamDB) {
 			v1Game.Delete("/:id", middlewares.NewJwtSessionMiddleware(db), controllers.GameController.DeleteGameController)
 		}
 
+		//====================================================================================
+		// (v1) Member
+		//====================================================================================
+		{
+			v1Member := v1.Group("member")
+			v1Member.Get("/", middlewares.NewJwtSessionMiddleware(db), controllers.MemberController.GetUserMembersController)
+			v1Member.Get("/:id", middlewares.NewJwtSessionMiddleware(db), controllers.MemberController.GetMemberController)
+			v1Member.Post("/:id/games", middlewares.NewJwtSessionMiddleware(db), controllers.MemberController.AddGameToMemberController)
+			v1Member.Delete("/:id/games/:gameId", middlewares.NewJwtSessionMiddleware(db), controllers.MemberController.RemoveGameFromMemberController)
+		}
+
 		logger.Info.Printf("log all routes mapped...")
 		for _, r := range app.GetRoutes() {
+			if r.Method == "HEAD" || r.Method == "OPTIONS" || r.Method == "CONNECT" || r.Method == "TRACE" {
+				continue
+			}
+
 			logger.Debug.Printf("[ROUTE] %s %s\n", r.Method, r.Path)
+
 		}
 	}
 

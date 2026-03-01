@@ -57,6 +57,18 @@ func (r *memberRepository) GetByID(id string, member *models.Member) error {
 	return nil
 }
 
+func (r *memberRepository) GetByUserID(userID string, members *[]models.Member) error {
+	result, err := goe.List(r.db.Members).Where(
+		where.Equals(&r.db.Members.UserID, userID),
+	).AsSlice()
+
+	if err != nil {
+		return err
+	}
+	*members = result
+	return nil
+}
+
 func (r *memberRepository) DeleteByID(id string) error {
 	return goe.Delete(r.db.Members).Where(
 		where.Equals(&r.db.Members.ID, id),
