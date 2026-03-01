@@ -131,22 +131,23 @@ func TestAuthService_ChangePassword(t *testing.T) {
 	})
 
 	t.Run("expired_code", func(t *testing.T) {
+		// Fresh mocks to avoid expectation pollution from "success" subtest
+		mockUserRepo := new(MockUserRepository)
+		mockRecoveryRepo := new(MockRecoveryRepository)
+		mockSessionRepo := new(MockSessionRepository)
+		mockMailService := new(MockMailService)
+		service := auth.NewAuthService(mockUserRepo, mockSessionRepo, mockRecoveryRepo, mockMailService)
+
 		dto := auth.ChangePasswordRequestRecoveryDto{Email: "test@example.com", Code: "123"}
-		// Set ExpiresAt to future to avoid that check failing (we want to test Expired flag)
-		// Set Code to match dto to avoid IncrementAttempts if Expired check fails
 		recovery := models.Recovery{
-			Expired:   true, 
+			Expired:   true,
 			ExpiresAt: time.Now().Add(1 * time.Hour),
 			Code:      "123",
 		}
 
 		mockUserRepo.On("GetByEmail", dto.Email, mock.AnythingOfType("*models.User")).Return(&models.User{}, nil)
-		// Use Run to ensure side effect happens if standard Return matching is failing
 		mockRecoveryRepo.On("GetByEmail", dto.Email, mock.AnythingOfType("*models.Recovery")).Return(&recovery, nil)
 
-		// Allow IncrementAttempts to be called (even though it shouldn't) to debug flow
-		// mockRecoveryRepo.On("IncrementAttempts", mock.Anything).Return(nil)
-		
 		err := service.ChangePassword(dto)
 
 		assert.Error(t, err)

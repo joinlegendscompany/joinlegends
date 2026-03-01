@@ -59,6 +59,13 @@ func TestAuthService_SignUpWithSession(t *testing.T) {
 	})
 
 	t.Run("session_create_error", func(t *testing.T) {
+		// Fresh mocks to avoid expectation pollution from "success" subtest
+		mockUserRepo := new(MockUserRepository)
+		mockSessionRepo := new(MockSessionRepository)
+		mockRecoveryRepo := new(MockRecoveryRepository)
+		mockMailService := new(MockMailService)
+		service := auth.NewAuthService(mockUserRepo, mockSessionRepo, mockRecoveryRepo, mockMailService)
+
 		dto := auth.SignUpDto{
 			Name:     "Test User",
 			Email:    "failsession@example.com",

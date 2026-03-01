@@ -62,6 +62,13 @@ func TestAuthService_SignInWithSession(t *testing.T) {
 	})
 
 	t.Run("session_creation_fails", func(t *testing.T) {
+		// Fresh mocks to avoid expectation pollution from "success" subtest
+		mockUserRepo := new(MockUserRepository)
+		mockSessionRepo := new(MockSessionRepository)
+		mockRecoveryRepo := new(MockRecoveryRepository)
+		mockMailService := new(MockMailService)
+		service := auth.NewAuthService(mockUserRepo, mockSessionRepo, mockRecoveryRepo, mockMailService)
+
 		dto := auth.SignInDto{Email: "test@example.com", Password: "password123"}
 		foundUser := models.User{ID: "u1", Email: dto.Email, Password: dto.Password}
 
