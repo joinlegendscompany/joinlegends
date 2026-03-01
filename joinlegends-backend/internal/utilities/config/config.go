@@ -36,7 +36,9 @@ func LoadEnv() {
 		os.Getenv("POSTGRES_DB"),
 	)
 
-	loadMailCredentialsWithPanicOnError()
+	if err := loadMailCredentialsWithPanicOnError(); err != nil {
+		log.Fatal("Error when load mail credentials")
+	}
 
 	GRAFANA_LOKI_CONNECTION = os.Getenv("LOKI_CONNECTION")
 	if GRAFANA_LOKI_CONNECTION == "" {

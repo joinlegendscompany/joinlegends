@@ -2,8 +2,10 @@ package factory
 
 import (
 	"go-backend-stream/internal/domains/auth"
+	"go-backend-stream/internal/domains/game"
 	"go-backend-stream/internal/domains/organization"
 	"go-backend-stream/internal/infrastructure/database"
+	game_repository "go-backend-stream/internal/infrastructure/repositories/game"
 	member_repository "go-backend-stream/internal/infrastructure/repositories/member"
 	organization_repository "go-backend-stream/internal/infrastructure/repositories/organization"
 	recovery_repository "go-backend-stream/internal/infrastructure/repositories/recovery"
@@ -14,6 +16,7 @@ import (
 type AppControllers struct {
 	AuthController         *auth.AuthController
 	OrganizationController *organization.OrganizationController
+	GameController         *game.GameController
 }
 
 func NewAppControllers(db *database.StreamDB) *AppControllers {
@@ -23,18 +26,22 @@ func NewAppControllers(db *database.StreamDB) *AppControllers {
 	recoveryRepo := recovery_repository.NewRecoveryRepository(db)
 	orgRepo := organization_repository.NewOrganizationRepository(db)
 	memberRepo := member_repository.NewMemberRepository(db)
+	gameRepo := game_repository.NewGameRepository(db)
 
 	// Services
 	mailService := &auth.DefaultMailService{}
 	authService := auth.NewAuthService(userRepo, sessionRepo, recoveryRepo, mailService)
 	orgService := organization.NewOrganizationService(orgRepo, memberRepo, userRepo)
+	gameService := game.NewGameService(gameRepo)
 
 	// Controllers
 	authController := auth.NewAuthController(authService)
 	orgController := organization.NewOrganizationController(orgService)
+	gameController := game.NewGameController(gameService)
 
 	return &AppControllers{
 		AuthController:         authController,
 		OrganizationController: orgController,
+		GameController:         gameController,
 	}
 }

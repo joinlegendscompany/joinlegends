@@ -7,6 +7,11 @@ import (
 	"github.com/go-goe/postgres"
 )
 
+type Test struct {
+	Id   string
+	Name string
+}
+
 func Connect() (*StreamDB, error) {
 	db, err := goe.Open[StreamDB](postgres.Open(config.DATABASE_CONNECTION, postgres.NewConfig(postgres.Config{})))
 	if err != nil {

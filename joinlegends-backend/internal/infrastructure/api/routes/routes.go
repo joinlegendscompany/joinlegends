@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	domain_stream "go-backend-stream/internal/domains/stream"
 	domain_upload "go-backend-stream/internal/domains/upload"
 	"go-backend-stream/internal/infrastructure/database"
@@ -37,8 +38,8 @@ func Setup(app *fiber.App, db *database.StreamDB) {
 		// (v1) Session Auth
 		//====================================================================================
 		v1SessionAuth := v1Auth.Group("/session")
-		v1SessionAuth.Post("/sign-in", controllers.AuthController.SignInController)
-		v1SessionAuth.Post("/sign-up", controllers.AuthController.SignUpController)
+		v1SessionAuth.Post("/sign-in", controllers.AuthController.SignInWithSession)
+		v1SessionAuth.Post("/sign-up", controllers.AuthController.SignUpWithSessionController)
 		v1SessionAuth.Get("/", middlewares.NewJwtSessionMiddleware(db), func(c *fiber.Ctx) error {
 			userId := c.Locals("userId").(string)
 
@@ -79,6 +80,19 @@ func Setup(app *fiber.App, db *database.StreamDB) {
 			v1Organization.Delete("/:id", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.DeleteOrganizationController)
 			v1Organization.Post("/:id/members", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.AddMemberController)
 			v1Organization.Delete("/:id/members/:memberId", middlewares.NewJwtSessionMiddleware(db), controllers.OrganizationController.RemoveMemberController)
+		}
+
+		//====================================================================================
+		// (v1) Game
+		//====================================================================================
+		fmt.Println("teste")
+		{
+			v1Game := v1.Group("game")
+			v1Game.Post("/", middlewares.NewJwtSessionMiddleware(db), controllers.GameController.CreateGameController)
+			v1Game.Get("/", controllers.GameController.GetAllGamesController)
+			v1Game.Get("/:id", controllers.GameController.GetGameController)
+			v1Game.Patch("/:id", middlewares.NewJwtSessionMiddleware(db), controllers.GameController.UpdateGameController)
+			v1Game.Delete("/:id", middlewares.NewJwtSessionMiddleware(db), controllers.GameController.DeleteGameController)
 		}
 
 		logger.Info.Printf("log all routes mapped...")

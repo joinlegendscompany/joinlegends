@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"encoding/json"
 	"fmt"
 	"go-backend-stream/internal/utilities/logger"
 	"net/http"
@@ -51,6 +52,7 @@ func (c *AuthController) SignUpController(ctx *fiber.Ctx) error {
 }
 
 func (c *AuthController) SignInController(ctx *fiber.Ctx) error {
+	logger.Debug.Println("Fui chamado ...")
 	var body SignInDto
 	if err := ctx.BodyParser(&body); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -113,10 +115,14 @@ func (c *AuthController) SignUpWithSessionController(ctx *fiber.Ctx) error {
 		}
 		logger.Error.Printf("error when create user with session: %s", err.Error())
 		return ctx.Status(http.StatusInternalServerError).JSON(fiber.Map{
-			"message": "internal server error when create a new user",
+			"message": "internal server error when generate session",
 			"error":   err.Error(),
 		})
 	}
+
+	jsonSession, _ := json.MarshalIndent(session, "", " ")
+	logger.Error.Println(jsonSession)
+	fmt.Println(jsonSession)
 
 	return ctx.JSON(fiber.Map{
 		"message": "usuário cadastrado com sucesso",
@@ -161,6 +167,9 @@ func (c *AuthController) SignInWithSession(ctx *fiber.Ctx) error {
 			"error":   err.Error(),
 		})
 	}
+
+	jsonSesson, _ := json.Marshal(session)
+	logger.Error.Println(jsonSesson)
 
 	return ctx.JSON(fiber.Map{
 		"message": "usuário logado com sucesso",
@@ -232,10 +241,23 @@ func (c *AuthController) ChangePasswordController(ctx *fiber.Ctx) error {
 	})
 }
 
-func (c *AuthController) GetAllSessionsController(ctx *fiber.Ctx) error {
-	userId := ctx.Locals("userId").(string)
+type GetAllSessionsControllerPayload struct {
+	UserId string `json:"user_id"`
+}
 
-	sessions, err := c.service.GetAllSessions(userId)
+// Body, headers, query, route params, etc.
+
+func (c *AuthController) GetAllSessionsController(ctx *fiber.Ctx) error {
+	var payload GetAllSessionsControllerPayload
+	if err := ctx.BodyParser(&payload); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	// userId := ctx.Locals("userId").(string)
+
+	sessions, err := c.service.GetAllSessions(payload.UserId)
 	if err != nil {
 		if err == goe.ErrNotFound {
 			return ctx.Status(http.StatusUnauthorized).JSON(fiber.Map{

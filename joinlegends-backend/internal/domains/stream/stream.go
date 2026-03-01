@@ -80,7 +80,7 @@ func parseRange(header string, size int64) (int64, int64, error) {
 		end, _ = strconv.ParseInt(parts[1], 10, 64)
 	}
 
-	const MAX_CHUNK_SIZE int64 = 1 * 1024 * 1024 // 1 MB
+	// const MAX_CHUNK_SIZE int64 = 1 * 1024 * 1024 // 1 MB
 
 	if start > end || end >= size {
 		return 0, 0, errors.New("range out of bounds")

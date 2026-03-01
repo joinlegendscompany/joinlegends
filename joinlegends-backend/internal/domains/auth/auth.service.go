@@ -10,6 +10,7 @@ import (
 	"go-backend-stream/internal/utilities/config"
 	"go-backend-stream/internal/utilities/date"
 	"go-backend-stream/internal/utilities/jwt"
+	"go-backend-stream/internal/utilities/logger"
 	"go-backend-stream/internal/utilities/mail"
 	"time"
 
@@ -123,11 +124,14 @@ func (s *authService) SignIn(dto SignInDto) (*models.User, string, error) {
 	if user.Password != dto.Password {
 		return nil, "", fmt.Errorf("password is invalid")
 	}
+	logger.Debug.Println("checkou adfasdf")
 
 	token, err := jwt.GenerateJwt(user.ID)
 	if err != nil {
 		return nil, "", err
 	}
+
+	logger.Debug.Printf("token generated: %s", token)
 
 	return &user, token, nil
 }
@@ -198,6 +202,8 @@ func (s *authService) SignInWithSession(dto SignInDto, userAgent, ip string) (*m
 	if err := s.userRepo.GetByEmail(dto.Email, &user); err != nil {
 		return nil, "", nil, err
 	}
+
+	logger.Error.Printf("porque esse crl não")
 
 	if user.Password != dto.Password {
 		return nil, "", nil, fmt.Errorf("password is invalid")

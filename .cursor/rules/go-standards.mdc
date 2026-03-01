@@ -1,0 +1,14 @@
+---
+description: Padrões de código Go no backend
+globs: joinlegends-backend/**/*.go
+alwaysApply: false
+---
+
+# Padrões Go no backend
+
+- **Interfaces de repositório**: Nome da interface = `UserRepository`, `SessionRepository`, etc. Arquivo de contrato: `<entity>.repository-contract.go`.
+- **Construtores**: `NewUserRepository(db)`, `NewAuthService(...)`, `NewAuthController(service)`. Services retornam a interface (ex: `AuthService`), não a struct privada.
+- **Erros de domínio**: Comparar com `goe.ErrNotFound` quando for “não encontrado”. Mensagens de erro em português nas respostas JSON quando fizer sentido para o cliente.
+- **DTOs**: Structs de request no domínio (ex: `SignUpDto`, `SignInDto`) em arquivo `*.dto.go`; usar `ctx.BodyParser(&body)` no controller.
+- **Logging**: Usar `logger.Info`, `logger.Error`, `logger.Debug` de `internal/utilities/logger` em vez de `log` padrão em código de domínio/infra.
+- **Config**: Variáveis de ambiente em `internal/utilities/config`; não espalhar `os.Getenv` pelo código.

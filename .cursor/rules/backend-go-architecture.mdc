@@ -1,0 +1,17 @@
+---
+description: Arquitetura e convenções do backend Go (joinlegends-backend)
+globs: joinlegends-backend/**/*.go
+alwaysApply: false
+---
+
+# Backend Go – Arquitetura e convenções
+
+- **Módulo**: `go-backend-stream` (usar em todos os imports internos).
+- **Fluxo**: Request → Middleware (JWT/sessão) → Controller → Service → Repository → DB. Controllers não acessam DB nem Redis diretamente.
+- **Domínios**: Em `internal/domains/<domain>/`. Cada um pode ter: `*.controller.go`, `*.service.go`, `*.dto.go`. Service expõe interface pública e implementação privada para testes.
+- **Repositórios**: Em `internal/infrastructure/repositories/<entity>/`. Interface em `*-contract.go`, implementação em `*.repository.go`. Recebem `*database.StreamDB`.
+- **Models**: Em `internal/models/*.go` (user, auth, video, organization, events). Structs com tags `json` e `db`. Novas entidades: adicionar struct e campo em `database.StreamDB` em `internal/infrastructure/database/schema.go`.
+- **Rotas e DI**: Registrar novas rotas em `internal/infrastructure/api/routes/routes.go`. Instanciar repositórios, services e controllers em `internal/infrastructure/factory/factory.go` e expor em `AppControllers`.
+- **Auth em rotas**: Usar `middlewares.NewJwtSessionMiddleware(db)`. Após o middleware, `c.Locals("userId").(string)` contém o ID do usuário.
+- **Respostas**: Em controllers, usar `ctx.JSON(fiber.Map{...})` ou `ctx.Status(...).JSON(fiber.Map{"message": ..., "error": ...})` em erros.
+- **Referência completa**: Ver `joinlegends-backend/docs/CONTEXT_FOR_LLM.md`.

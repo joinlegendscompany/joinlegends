@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"go-backend-stream/internal/utilities/config"
-
 	"log"
 	"net/http"
 	"os"
@@ -15,17 +13,28 @@ import (
 	"time"
 )
 
+const (
+	Red    = "\033[31m"
+	Green  = "\033[32m"
+	Yellow = "\033[33m"
+	Blue   = "\033[34m"
+	Reset  = "\033[0m"
+)
+
 var (
 	Info  *log.Logger
 	Warn  *log.Logger
 	Error *log.Logger
 	Debug *log.Logger
 
+	lokiURL = "http://localhost:3100/loki/api/v1/push"
 	appName = "my-go-app"
 
 	bufferMutex sync.Mutex
-	logStreams  = make(map[string]*LokiStream)
+	logStreams  = make(map[string]*LokiStream) // key = level
 )
+
+// ---------- Structs ----------
 
 type LokiStream struct {
 	Stream map[string]string `json:"stream"`
@@ -36,6 +45,8 @@ type LokiPayload struct {
 	Streams []LokiStream `json:"streams"`
 }
 
+// ---------- Writer para console + arquivo + Loki ----------
+
 type lokiWriter struct {
 	level  string
 	writer io.Writer
@@ -44,11 +55,19 @@ type lokiWriter struct {
 func (w *lokiWriter) Write(p []byte) (n int, err error) {
 	msg := strings.TrimSpace(string(p))
 	enqueueLog(w.level, msg)
-	return w.writer.Write(p)
+	return w.writer.Write(p) // escreve também no destino (console+arquivo)
 }
 
+// ---------- Init ----------
+
 func Init() {
-	// create log file
+	if url := os.Getenv("LOKI_URL"); url != "" {
+		lokiURL = url
+	}
+
+	fmt.Printf("lokiURL: %s\n", lokiURL)
+
+	// cria arquivo de log
 	file, err := os.OpenFile("app.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatalf("Erro ao abrir arquivo de log: %v", err)
@@ -56,10 +75,10 @@ func Init() {
 
 	multi := io.MultiWriter(os.Stdout, file)
 
-	Info = log.New(&lokiWriter{level: "info", writer: multi}, "[INFO] ", log.Ldate|log.Ltime|log.Lshortfile)
-	Warn = log.New(&lokiWriter{level: "warn", writer: multi}, "[WARN] ", log.Ldate|log.Ltime|log.Lshortfile)
-	Error = log.New(&lokiWriter{level: "error", writer: multi}, "[ERROR] ", log.Ldate|log.Ltime|log.Lshortfile)
-	Debug = log.New(&lokiWriter{level: "debug", writer: multi}, "[DEBUG] ", log.Ldate|log.Ltime|log.Lshortfile)
+	Info = log.New(&lokiWriter{level: "info", writer: multi}, Green+"[INFO] "+Reset, log.Ldate|log.Ltime|log.Lshortfile)
+	Warn = log.New(&lokiWriter{level: "warn", writer: multi}, Yellow+"[WARN] "+Reset, log.Ldate|log.Ltime|log.Lshortfile)
+	Error = log.New(&lokiWriter{level: "error", writer: multi}, Red+"[ERROR] "+Reset, log.Ldate|log.Ltime|log.Lshortfile)
+	Debug = log.New(&lokiWriter{level: "debug", writer: multi}, Blue+"[DEBUG] "+Reset, log.Ldate|log.Ltime|log.Lshortfile)
 
 	// goroutine que envia logs a cada 5s
 	go func() {
@@ -69,6 +88,8 @@ func Init() {
 		}
 	}()
 }
+
+// ---------- Enqueue ----------
 
 func enqueueLog(level, msg string) {
 	ts := fmt.Sprintf("%d", time.Now().UnixNano())
@@ -92,6 +113,8 @@ func enqueueLog(level, msg string) {
 	stream.Values = append(stream.Values, []string{ts, msg})
 }
 
+// ---------- Flush ----------
+
 func flushLogs() {
 	bufferMutex.Lock()
 	if len(logStreams) == 0 {
@@ -99,7 +122,7 @@ func flushLogs() {
 		return
 	}
 
-	// copy streams
+	// copia streams
 	streams := []LokiStream{}
 	for _, s := range logStreams {
 		streams = append(streams, *s)
@@ -114,7 +137,7 @@ func flushLogs() {
 	}
 
 	client := &http.Client{Timeout: 5 * time.Second}
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/loki/api/v1/push", config.GRAFANA_LOKI_CONNECTION), bytes.NewBuffer(data))
+	req, err := http.NewRequest("POST", lokiURL, bytes.NewBuffer(data))
 	if err != nil {
 		log.Println("Falha ao criar requisição para Loki:", err)
 		return
@@ -123,7 +146,7 @@ func flushLogs() {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Println("Falha ao enviar logs para Loki:", err)
+		log.Println("Falha ao enviar logs para Loki na url %s:", lokiURL, err)
 		return
 	}
 	defer resp.Body.Close()
@@ -132,9 +155,11 @@ func flushLogs() {
 		log.Println("Logs enviados com sucesso para o Loki!")
 	} else {
 		body, _ := io.ReadAll(resp.Body)
-		log.Printf("Erro ao enviar logs para Loki. Status: %d, Body: %s\n", resp.StatusCode, string(body))
+		log.Printf("Erro ao enviar logs para Loki na url %s. Status: %d, Body: %s\n", lokiURL, resp.StatusCode, string(body))
 	}
 }
+
+// ---------- Funções de Log ----------
 
 func InfoLog(msg string) {
 	Info.Println(msg)

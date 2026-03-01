@@ -12,5 +12,6 @@ type StreamDB struct {
 	Sessions      *models.Session
 	Organizations *models.Organization
 	Members       *models.Member
+	Games         *models.Game
 	*goe.DB
 }
